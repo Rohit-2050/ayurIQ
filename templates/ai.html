@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ayurvedic Analysis</title>
+<link rel="shortcut icon" href="../logo.png" type="image/x-icon">
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f0f4f3; margin: 0; padding: 20px;">
+
+<h2 style="color: #2d6a4f; text-align: center;">Ayurvedic Patient Input</h2>
+
+<div style="max-width: 500px; margin: auto; background: #ffffff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+
+<form id="patient-form">
+  <label style="display: block; margin-bottom: 12px; font-weight: bold; color: #1b4332;">Name:
+    <input type="text" name="name" required style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
+  </label>
+
+  <label style="display: block; margin-bottom: 12px; font-weight: bold; color: #1b4332;">Age:
+    <input type="number" name="age" required style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc;">
+  </label>
+
+  <label style="display: block; margin-bottom: 12px; font-weight: bold; color: #1b4332;">Symptoms:
+    <textarea name="symptoms" required style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; height: 70px;"></textarea>
+  </label>
+
+  <label style="display: block; margin-bottom: 12px; font-weight: bold; color: #1b4332;">Food Habits:
+    <textarea name="food" required style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; height: 70px;"></textarea>
+  </label>
+
+  <label style="display: block; margin-bottom: 12px; font-weight: bold; color: #1b4332;">Lifestyle:
+    <textarea name="lifestyle" required style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; height: 70px;"></textarea>
+  </label>
+
+  <button type="submit" style="width: 100%; padding: 12px; background-color: #40916c; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">
+    Analyze
+  </button>
+</form>
+
+</div>
+
+<div id="output" style="max-width: 700px; margin: 30px auto;"></div>
+
+<script>
+document.getElementById("patient-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const jsonData = {};
+  formData.forEach((v,k)=> jsonData[k]=v);
+
+  const outputDiv = document.getElementById("output");
+  outputDiv.innerHTML = "<p style='text-align:center;'>Analyzing...</p>";
+
+  try {
+    const res = await fetch("http://127.0.0.1:5000/analyze", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(jsonData)
+    });
+
+    const data = await res.json();
+    outputDiv.innerHTML = "";
+
+    for (const key in data) {
+      if (data[key].trim() !== "") {
+        const card = document.createElement("div");
+        card.style.backgroundColor = "#ffffff";
+        card.style.padding = "18px";
+        card.style.marginTop = "15px";
+        card.style.borderRadius = "10px";
+        card.style.boxShadow = "0 3px 10px rgba(0,0,0,0.1)";
+        card.innerHTML = `<h3 style="margin-top:0; color:#1b4332;">${key.replace("_"," ").toUpperCase()}</h3><pre style="white-space: pre-wrap; margin:0;">${data[key]}</pre>`;
+        outputDiv.appendChild(card);
+      }
+    }
+
+  } catch(err) {
+    outputDiv.textContent = "Error: " + err;
+  }
+});
+</script>
+
+</body>
+</html>

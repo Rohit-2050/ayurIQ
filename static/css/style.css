@@ -1,0 +1,135 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden; /* Prevents the main page from scrolling */
+}
+
+body {
+    background-color: #f0f4f8;
+}
+
+.main-page-container {
+    height: 100vh;
+    width: 100vw;
+    background-color: #f0f4f8;
+}
+
+.container-custom {
+    max-width: 1200px;
+    height: 90vh;
+    max-height: 800px;
+    width: 95%; /* Use a percentage for better scaling */
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.form-section {
+    background-color: #fff;
+    height: 100%;
+    /* No flex properties here, Bootstrap's col-lg-5 handles sizing */
+}
+
+.form-content-wrapper {
+    padding: 30px;
+    overflow-y: scroll;
+    flex-grow: 1;
+    height: 100%;
+
+    /* To hide the scrollbar */
+    /* For WebKit browsers (Chrome, Safari, Edge) */
+    &::-webkit-scrollbar {
+        width: 0;
+        background: transparent;
+    }
+    /* For Firefox */
+    scrollbar-width: none;
+}
+
+.image-section {
+    position: relative;
+    /* No flex properties here, Bootstrap's col-lg-7 handles sizing */
+}
+
+.image-section img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.toggle-buttons{
+    padding-bottom: 14px;
+}
+
+/* All other existing styles remain the same */
+.toggle-buttons button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    background: #e0e0e0;
+    transition: background 0.3s;
+    font-weight: 500;
+}
+
+#signup-btn {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#login-btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.toggle-buttons button.active {
+    background: #000;
+    color: #fff;
+}
+
+.password-field {
+    position: relative;
+}
+
+.password-field .toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.image-overlay {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    color: #fff;
+}
+
+.logo-img{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.logo-sec{
+  display: flex;
+}
+
+.logo-sec h2{
+  font-family: "Cormorant Garamond";
+  font-size: 30px;
+  margin-left:10px;
+}

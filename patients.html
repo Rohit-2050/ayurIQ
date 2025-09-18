@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Patient Dashboard</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="patient.css">
+</head>
+<body>
+
+<div id="overlay" class="overlay"></div>
+
+<div class="d-flex">
+    <div id="sidebar" class="sidebar position-fixed vh-100 p-3">
+        <h4 class="mb-4">Patient Panel</h4>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li><a href="#" class="nav-link active" data-section="dashboard-section">Dashboard</a></li>
+            <li><a href="#" class="nav-link" data-section="ayurbot-section">AyurIQ</a></li>
+            <li><a href="#" class="nav-link" data-section="appointments">Appointments</a></li>
+            <li><a href="#" class="nav-link" data-section="diet-charts">Diet Charts</a></li>
+            <li><a href="#" class="nav-link" data-section="reports">Reports</a></li>
+            <li><a href="#" class="nav-link" data-section="settings">Settings</a></li>
+        </ul>
+    </div>
+
+    <div class="flex-grow-1" style="margin-left: 220px;">
+        <nav class="navbar navbar-light bg-white d-md-none shadow-sm">
+            <div class="container-fluid">
+                <button id="toggleSidebar" class="btn btn-outline-primary">☰ Menu</button>
+                <span class="navbar-brand mb-0 h1">Patient Dashboard</span>
+            </div>
+        </nav>
+
+        <div class="p-4">
+            <div id="dashboard-section" class="content-section">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0">Welcome back, John Doe!</h2>
+                    <button class="btn btn-primary" id="btnassistance" data-section="ayurbot-section" style="background-color: #40916c; border-color: #40916c;">
+                        Assistance
+                    </button>
+                </div>
+                <div class="row mt-4 g-3">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="card text-center card-hover p-3">
+                            <h6>Upcoming Appointments</h6>
+                            <h2 class="text-primary">2</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="card text-center card-hover p-3">
+                            <h6>Assigned Doctor</h6>
+                            <h2 class="text-success">Dr. Varsha</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="card text-center card-hover p-3">
+                            <h6>Diet Plans</h6>
+                            <h2 class="text-warning">3 Active</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex flex-wrap gap-2 mt-4 mb-5">
+                    <button id="btnBookAppointment" class="btn btn-primary btn-primary-custom flex-grow-1">Book Appointment</button>
+                    <button id="btnViewDietChart" class="btn btn-secondary flex-grow-1">View Diet Chart</button>
+                    <button id="btnAccessReports" class="btn btn-info text-white flex-grow-1">Access Medical Reports</button>
+                </div>
+                <div class="mb-5">
+                    <h5>Your Schedule for Today</h5>
+                    <div class="table-responsive">
+                        <table class="table table-striped mt-3" id="todayScheduleTable">
+                            <thead><tr><th>Time</th><th>Doctor</th><th>Action</th></tr></thead>
+                            <tbody>
+                                <tr><td>8:00 AM</td><td>Dr. Varsha</td><td><button class="btn btn-outline-primary btn-sm doctor-details-dashboard">Doctor Details</button></td></tr>
+                                <tr><td>3:30 PM</td><td>Dr. Kumar</td><td><button class="btn btn-outline-primary btn-sm doctor-details-dashboard">Doctor Details</button></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div>
+                    <h5>Your Latest Reports</h5>
+                    <div class="table-responsive">
+                        <table class="table table-striped mt-3" id="latestReportsTable">
+                            <thead><tr><th>Report Name</th><th>Date</th><th>Action</th></tr></thead>
+                            <tbody>
+                                <tr><td>Blood Test</td><td>12-09-2025</td><td><button class="btn btn-outline-secondary btn-sm report-view">View</button></td></tr>
+                                <tr><td>Diet Plan</td><td>15-09-2025</td><td><button class="btn btn-outline-secondary btn-sm report-view">View</button></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="appointments" class="content-section d-none">
+                <h2>Appointments</h2>
+                <p>Here you can view and manage your appointments.</p>
+                <div class="mb-3">
+                    <button id="btnNewAppointment" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newAppointmentModal">+ New Appointment</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered mt-3" id="appointmentsTable">
+                        <thead><tr><th>Date</th><th>Time</th><th>Doctor</th><th>Status</th><th>Action</th></tr></thead>
+                        <tbody>
+                            <tr><td>20-09-2025</td><td>10:00 AM</td><td>Dr. Varsha</td><td><span class="badge bg-success">Confirmed</span></td><td><button class="btn btn-outline-primary btn-sm doctor-details">Doctor Details</button></td></tr>
+                            <tr><td>25-09-2025</td><td>2:00 PM</td><td>Dr. Kumar</td><td><span class="badge bg-warning text-dark">Pending</span></td><td><button class="btn btn-outline-primary btn-sm doctor-details">Doctor Details</button></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="diet-charts" class="content-section d-none">
+                <h2>Diet Charts</h2>
+                <p>View your diet charts below.</p>
+                <div class="table-responsive">
+                    <table class="table table-bordered mt-3" id="dietChartsTable">
+                        <thead><tr><th>Chart No</th><th>Patient Name</th><th>Action</th></tr></thead>
+                        <tbody>
+                            <tr><td>1</td><td>John Doe</td><td><button class="btn btn-outline-primary btn-sm view-diet">View</button></td></tr>
+                            <tr><td>2</td><td>John Doe</td><td><button class="btn btn-outline-primary btn-sm view-diet">View</button></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="reports" class="content-section d-none">
+                <h2>Reports</h2>
+                <p>View your medical reports below.</p>
+                <div class="table-responsive">
+                    <table class="table table-bordered mt-3" id="reportsTable">
+                        <thead><tr><th>Report Name</th><th>Date</th><th>Action</th></tr></thead>
+                        <tbody>
+                            <tr><td>Annual Health Check</td><td>10 Sep 2025</td><td><button class="btn btn-outline-secondary btn-sm report-view">View</button></td></tr>
+                            <tr><td>Blood Test Report</td><td>12 Sep 2025</td><td><button class="btn btn-outline-secondary btn-sm report-view">View</button></td></tr>
+                            <tr><td>Diet Recommendation</td><td>15 Sep 2025</td><td><button class="btn btn-outline-secondary btn-sm report-view">View</button></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="settings" class="content-section d-none">
+                <h2>Settings</h2>
+                <p>Manage your account settings below.</p>
+                <div class="card p-3 mb-3">
+                    <h5>Profile Information</h5>
+                    <p id="profileName">Name: John Doe</p>
+                    <p id="profileEmail">Email: johndoe@example.com</p>
+                    <button id="editProfileBtn" class="btn btn-outline-primary btn-sm">Edit Profile</button>
+                </div>
+                <div class="card p-3 mb-3">
+                    <h5>Notifications</h5>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="emailNotif" checked>
+                        <label class="form-check-label" for="emailNotif">Email Notifications</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="smsNotif">
+                        <label class="form-check-label" for="smsNotif">SMS Notifications</label>
+                    </div>
+                </div>
+                <div class="card p-3 mb-3">
+                    <h5>Change Password</h5>
+                    <input type="password" class="form-control mb-2" placeholder="Current Password">
+                    <input type="password" class="form-control mb-2" placeholder="New Password">
+                    <button class="btn btn-primary btn-sm">Update Password</button>
+                </div>
+            </div>
+
+            <div id="ayurbot-section" class="content-section d-none">
+                <div style="font-family: Arial, sans-serif; background-color: #f0f4f3; margin: 0; padding: 20px;">
+                    <h2 style="color: #2d6a4f; text-align: center;">Ayurvedic Patient Input</h2>
+                    <div style="max-width: 500px; margin: auto; background: #ffffff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                        <form id="patient-form">
+                            <label style="display: block; margin-bottom: 12px; font-weight: bold; color: #1b4332;">Name:
+                                <input type="text" name="name" required style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box;">
+                            </label>
+                            <label style="display: block; margin-bottom: 12px; font-weight: bold; color: #1b4332;">Age:
+                                <input type="number" name="age" required style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc;">
+                            </label>
+                            <label style="display: block; margin-bottom: 12px; font-weight: bold; color: #1b4332;">Symptoms:
+                                <textarea name="symptoms" required style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; height: 70px;"></textarea>
+                            </label>
+                            <label style="display: block; margin-bottom: 12px; font-weight: bold; color: #1b4332;">Food Habits:
+                                <textarea name="food" required style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; height: 70px;"></textarea>
+                            </label>
+                            <label style="display: block; margin-bottom: 12px; font-weight: bold; color: #1b4332;">Lifestyle:
+                                <textarea name="lifestyle" required style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; height: 70px;"></textarea>
+                            </label>
+                            <button type="submit" style="width: 100%; padding: 12px; background-color: #40916c; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">
+                                Analyze
+                            </button>
+                        </form>
+                    </div>
+                    <div id="output" style="max-width: 700px; margin: 30px auto;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="newAppointmentModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New Appointment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="appointmentForm">
+                    <div class="mb-3">
+                        <label for="appointmentDate" class="form-label">Date</label>
+                        <input type="date" class="form-control" id="appointmentDate" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Time</label>
+                        <div class="input-group">
+                            <select class="form-select" id="appointmentHour"></select>
+                            <select class="form-select" id="appointmentMinute"></select>
+                            <select class="form-select" id="appointmentAMPM">
+                                <option>AM</option>
+                                <option>PM</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="appointmentDoctor" class="form-label">Doctor</label>
+                        <select class="form-select" id="appointmentDoctor" required>
+                            <option>Dr. Varsha</option>
+                            <option>Dr. Kumar</option>
+                            <option>Dr. Sharma</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Book</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="doctorDetailsModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Doctor Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="doctorDetailsContent"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="patientReportModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Report Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="patientReportContent" style="max-height: 400px; overflow-y: auto;"></div>
+            <div class="modal-footer">
+                <button type="button" id="downloadReport" class="btn btn-success">Download PDF</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="dietChartModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Diet Chart Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="dietChartContent" style="max-height: 400px; overflow-y: auto;"></div>
+            <div class="modal-footer">
+                <button type="button" id="downloadDietChart" class="btn btn-success">Download PDF</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editProfileModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Profile</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editProfileForm">
+                    <div class="mb-3">
+                        <label>Name</label>
+                        <input type="text" id="editName" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Email</label>
+                        <input type="email" id="editEmail" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="patient.js"></script>
+
+</body>
+</html>
