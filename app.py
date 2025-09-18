@@ -1,15 +1,17 @@
-from flask import Flask, request, jsonify
-import mysql.connector
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
-import json
-import requests 
-import re
-import os
+import mysql.connector
+import json, requests, re, os
 from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)  # allow all origins (for dev / hackathon)
+CORS(app)  # allow all origins
+
+# --- Home route ---
+@app.route("/")
+def home():
+    return render_template("index.html")
 
 # --- MySQL connection ---
 db = mysql.connector.connect(
@@ -18,12 +20,12 @@ db = mysql.connector.connect(
     user=os.getenv("DB_USER"),
     password=os.getenv("DB_PASSWORD"),
     database=os.getenv("DB_NAME"),
-    ssl_ca="ca.pem"  # you can also make this dynamic if needed
+    ssl_ca="ca.pem"
 )
 
 cursor = db.cursor()
 
-# --- Create tables if not exist ---
+# --- Tables creation ---
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -45,6 +47,10 @@ CREATE TABLE IF NOT EXISTS food (
 )
 """)
 db.commit()
+
+# --- Remaining routes like /register, /login, /foods, /analyze, etc. ---
+# (keep the rest of your code as is)
+
 
 # --- Auth Routes ---
 @app.route('/register', methods=['POST'])
